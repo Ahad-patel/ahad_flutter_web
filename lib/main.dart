@@ -1,16 +1,18 @@
-import 'package:ahad_ayna_interview_project/core/config/app_colors.dart';
-import 'package:ahad_ayna_interview_project/core/config/hive_db.dart';
+import 'dart:ui_web';
+
 import 'package:ahad_ayna_interview_project/core/routes/route_utils.dart';
-import 'package:ahad_ayna_interview_project/core/user/user.dart';
 import 'package:ahad_ayna_interview_project/service_locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
-Future<void> main() async {
+import 'core/config/shim_db.dart';
+
+void main() async {
   usePathUrlStrategy();
   setupLocator();
-  AppLocalDB.init();
-  await sl<User>().init();
+  await AppLocalDB.init();
+  // User().isLoggedIn;
   runApp(const MyApp());
 }
 
@@ -19,12 +21,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Ayna Interview Project',
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: AppColors.backgroundColor,
+    return ScreenUtilInit(
+      ensureScreenSize: true,
+      child: MaterialApp.router(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        routerConfig: RouteUtils().goRouter,
       ),
-      routerConfig: RouteUtils().goRouter,
     );
   }
 }
