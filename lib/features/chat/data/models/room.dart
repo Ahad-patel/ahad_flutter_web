@@ -10,7 +10,7 @@ class Room extends HiveObject {
   @HiveField(0)
   final String? id;
 
-  @HiveField(1, defaultValue: [])
+  @HiveField(1)
   final List<Chat> chats;
 
   @HiveField(2)
@@ -18,7 +18,7 @@ class Room extends HiveObject {
 
   Room({
     this.id,
-    this.chats = const [],
+    this.chats = const <Chat>[],
     this.createdAt,
   });
 

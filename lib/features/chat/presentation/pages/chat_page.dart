@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:ahad_ayna_interview_project/core/config/hive_db.dart';
 import 'package:ahad_ayna_interview_project/core/routes/app_route_keys.dart';
 import 'package:ahad_ayna_interview_project/core/routes/navigation_service.dart';
 import 'package:ahad_ayna_interview_project/core/utils/app_dimens.dart';
@@ -31,17 +32,23 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   var controller = TextEditingController();
   late Uri wsUrl;
-
+  late List<Chat> chatList;
   late WebSocketChannel channel;
-
   ValueNotifier<List<Chat>> messages = ValueNotifier([]);
+  late Map<String, String> params =
+      GoRouterState.of(context).uri.queryParameters;
 
   Future<void> _init() async {
     print("Init called");
     wsUrl = Uri.parse('wss://echo.websocket.org/');
     channel = WebSocketChannel.connect(wsUrl);
     await channel.ready;
+    var roomsBox = await AppLocalDB().rooms;
 
+    messages.value = roomsBox.values
+        .firstWhere((element) => element.id == params['roomId'])
+        .chats;
+    // messages.value = chats.map<Chat>((e) => e).toList();
     channel.stream.listen((event) {
       print(event);
       _addDataToList(event);
@@ -67,36 +74,36 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void dispose() {
     channel.sink.close();
+
     super.dispose();
   }
 
   void _onSendClicked(String value) {
     print("on Send clicked");
-    var params = GoRouterState.of(context).uri.queryParameters;
+    // var params = GoRouterState.of(context).uri.queryParameters;
 
     var chat =
-        Chat(roomId: params['RoomId'] ?? '', message: value, sentByMe: true);
+        Chat(roomId: params['roomId'] ?? '', message: value, sentByMe: true);
 
     channel.sink.add(chat.toJson());
-    var chat2 = chat.copyWith(
+    var reply = chat.copyWith(
         id: const Uuid().v1(),
         sentByMe: false,
         createdAt: DateTime.now().add(Duration(milliseconds: 100)));
-    print(chat.toJson());
-    print(chat2.toJson());
-    channel.sink.add(chat2.toJson());
+    // print(chat.toJson());
+    // print(reply.toJson());
+    channel.sink.add(reply.toJson());
   }
 
   void _addDataToList(String event) {
-    // if (snapshot.hasData) {
     try {
       messages.value.add(Chat.fromJson(event));
       messages.value.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+      controller.clear();
       messages.notifyListeners();
     } catch (e) {
-      print(e);
+      print("Error $e");
     }
-    // }
   }
 
   @override

@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:ahad_ayna_interview_project/core/config/shim_db.dart';
+import 'package:ahad_ayna_interview_project/core/config/hive_db.dart';
 import 'package:ahad_ayna_interview_project/core/utils/common_functions.dart';
+import 'package:ahad_ayna_interview_project/features/chat/data/models/chat.dart';
 import 'package:ahad_ayna_interview_project/features/chat/data/models/room.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -39,7 +40,11 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
       CreateRoomEvent event, Emitter<RoomState> emit) async {
     // emit.call(state.copyWith(responseState: ResponseState.loading));
     try {
-      var room = Room(id: const Uuid().v1(), createdAt: DateTime.now());
+      var room = Room(
+        id: const Uuid().v1(),
+        chats: <Chat>[],
+        createdAt: DateTime.now(),
+      );
       Box<Room> rooms = await AppLocalDB().rooms;
       rooms.add(room);
 

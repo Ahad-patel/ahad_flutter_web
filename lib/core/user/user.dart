@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:uuid/uuid.dart';
 import 'package:collection/collection.dart';
-import '../config/shim_db.dart';
+import '../config/hive_db.dart';
 
 class User {
   final String? id;

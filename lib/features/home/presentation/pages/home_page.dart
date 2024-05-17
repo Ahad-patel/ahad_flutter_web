@@ -31,6 +31,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
         bottomNavigationBar: BlocListener<RoomBloc, RoomState>(
+          bloc: bloc,
           listener: (context, state) {
             if (state.responseState == ResponseState.created) {
               AppSnackBars.showSnackBar(
@@ -63,15 +64,13 @@ class HomePage extends StatelessWidget {
         ),
         body: BlocBuilder<RoomBloc, RoomState>(
           bloc: bloc..add(GetAllRoomsEvent()),
-          // listener: (context, state) {
-          //   // TODO: implement listener
-          // },
           builder: (context, state) {
             if (state.responseState == ResponseState.failure) {
               return Center(child: Text('Error: ${state.message}'));
             }
 
-            if (state.responseState == ResponseState.success) {
+            if (state.responseState == ResponseState.success ||
+                state.responseState == ResponseState.created) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListView.builder(
