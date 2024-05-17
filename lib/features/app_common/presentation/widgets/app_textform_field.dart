@@ -1,15 +1,20 @@
 import 'package:ahad_ayna_interview_project/core/config/app_colors.dart';
+import 'package:ahad_ayna_interview_project/core/utils/app_dimens.dart';
 import 'package:flutter/material.dart';
 
 class AppTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final bool obscureText;
+  final EdgeInsets padding;
+  final String label;
   const AppTextFormField({
     super.key,
     this.controller,
     this.validator,
     this.obscureText = false,
+    this.padding = const EdgeInsets.all(AppDimens.defaultPadding),
+    this.label = '',
   });
 
   InputBorder get outlineBorder => OutlineInputBorder(
@@ -23,16 +28,21 @@ class AppTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      validator: validator,
-      obscureText: obscureText,
-      decoration: InputDecoration(
-          border: outlineBorder,
-          enabledBorder: outlineBorder,
-          focusedBorder: outlineBorder,
-          errorBorder: errorOutlineBorder,
-          focusedErrorBorder: errorOutlineBorder),
+    return Padding(
+      padding: padding,
+      child: TextFormField(
+        controller: controller,
+        validator: validator,
+        obscureText: obscureText,
+        decoration: InputDecoration(
+            label: Text(label),
+            hintText: label,
+            border: outlineBorder,
+            enabledBorder: outlineBorder,
+            focusedBorder: outlineBorder,
+            errorBorder: errorOutlineBorder,
+            focusedErrorBorder: errorOutlineBorder),
+      ),
     );
   }
 }
