@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
-import 'core/config/shim_db.dart';
+import 'core/config/hive_db.dart';
 
 void main() async {
   usePathUrlStrategy();
