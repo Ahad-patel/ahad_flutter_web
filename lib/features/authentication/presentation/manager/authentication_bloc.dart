@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:ahad_ayna_interview_project/core/user/user.dart';
-import 'package:ahad_ayna_interview_project/core/utils/common_functions.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:ahad_ayna_interview_project/core/user/user.dart';
+import 'package:ahad_ayna_interview_project/core/utils/common_functions.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';

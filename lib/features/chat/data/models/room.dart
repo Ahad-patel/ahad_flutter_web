@@ -11,13 +11,17 @@ class Room extends HiveObject {
   final String? id;
 
   @HiveField(1)
-  final List<Chat> chats;
+  final String? userId;
 
-  @HiveField(2)
+  @HiveField(2, defaultValue: <Chat>[])
+  List<Chat> chats;
+
+  @HiveField(3)
   final DateTime? createdAt;
 
   Room({
     this.id,
+    this.userId,
     this.chats = const <Chat>[],
     this.createdAt,
   });
@@ -39,13 +43,17 @@ class Room extends HiveObject {
 
   factory Room.fromMap(Map<String, dynamic> json) => Room(
         id: json["id"],
+        userId: json["userId"],
         chats: List<Chat>.from(json["chats"].map((x) => Chat.fromJson(x))),
         createdAt: DateTime.parse(json["createdAt"]),
       );
 
   Map<String, dynamic> toMap() => {
         "id": id,
-        "chats": List<dynamic>.from(chats.map((x) => x.toMap())),
+        "userId": userId,
+        "chats": chats != null && chats!.isNotEmpty
+            ? List<dynamic>.from(chats!.map((x) => x.toJson()))
+            : null,
         "createdAt":
             createdAt?.toIso8601String() ?? DateTime.now().toIso8601String(),
       };

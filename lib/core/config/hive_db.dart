@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:ahad_ayna_interview_project/features/chat/data/models/chat.dart';
 import 'package:ahad_ayna_interview_project/features/chat/data/models/room.dart';
 import 'package:hive/hive.dart';
+import 'package:collection/collection.dart';
 import 'package:path_provider/path_provider.dart';
 
 abstract class AppLocalKeys {
@@ -15,10 +16,18 @@ abstract class AppLocalKeys {
 
 class AppLocalDB extends AppLocalKeys {
   static late Box _box;
-  static late Box roomBox;
+  static late Box<Room> roomBox;
 
-  Future<Box<Room>> get rooms async =>
+  Future<Box<Room>> get getRoomList async =>
       await Hive.openBox<Room>(AppLocalKeys.roomBox);
+
+  // Future<Room?> getRoom(String roomId) async {
+  //   var roomList = await getRoomList;
+  //   var room = roomList.values.firstWhereOrNull(
+  //     (e) => e.id == roomId,
+  //   );
+  //   return room;
+  // }
 
   // initialize db
   static Future<void> init() async {

@@ -18,20 +18,23 @@ class RoomAdapter extends TypeAdapter<Room> {
     };
     return Room(
       id: fields[0] as String?,
-      chats: (fields[1] as List).cast<Chat>(),
-      createdAt: fields[2] as DateTime?,
+      userId: fields[1] as String?,
+      chats: fields[2] == null ? <Chat>[] : (fields[2] as List).cast<Chat>(),
+      createdAt: fields[3] as DateTime?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Room obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.chats)
+      ..write(obj.userId)
       ..writeByte(2)
+      ..write(obj.chats)
+      ..writeByte(3)
       ..write(obj.createdAt);
   }
 

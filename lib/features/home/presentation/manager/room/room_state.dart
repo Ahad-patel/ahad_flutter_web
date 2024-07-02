@@ -12,7 +12,7 @@ class RoomState extends Equatable {
       this.createdRoom});
 
   @override
-  List<Object?> get props => [responseState, message, rooms];
+  List<Object?> get props => [responseState, message, rooms, createdRoom];
 
   RoomState copyWith({
     ResponseState? responseState,

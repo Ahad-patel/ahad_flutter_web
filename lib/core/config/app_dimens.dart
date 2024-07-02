@@ -1,6 +1,7 @@
 class AppDimens {
   static const double defaultPadding = space10;
   static const double defaultBorderRadius = borderRadius10;
+  static const double defaultMaxWidth = 500;
 
   static const double space2 = 2;
   static const double space3 = 3;
@@ -35,6 +36,7 @@ class AppDimens {
   static const double imageSize75 = 75.0;
   static const double imageSize80 = 80.0;
 
+  static const double borderRadius5 = 5;
   static const double borderRadius10 = 10;
   static const double borderRadius15 = 15;
   static const double borderRadius20 = 20;
@@ -49,7 +51,7 @@ class AppDimens {
   static const circleRadius35 = 35;
 
   static const double inputFieldHeight = 42;
-  static const double buttonHeight = 40;
+  static const double defaultButtonHeight = 40;
 
   static double mainTextShimmerRadius = 3;
   static double productRatingShimmerRadius = 5;

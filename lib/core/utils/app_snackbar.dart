@@ -1,9 +1,9 @@
 library app_snack_bars;
 
+import 'package:flutter/material.dart';
 import 'package:ahad_ayna_interview_project/core/config/app_colors.dart';
 import 'package:ahad_ayna_interview_project/core/routes/navigation_service.dart';
-import 'package:ahad_ayna_interview_project/core/utils/app_dimens.dart';
-import 'package:flutter/material.dart';
+import 'package:ahad_ayna_interview_project/core/config/app_dimens.dart';
 import 'package:gap/gap.dart';
 
 enum AlertType { info, success, warning, error }
