@@ -7,11 +7,10 @@ import 'package:ahad_ayna_interview_project/core/routes/route_utils.dart';
 import 'package:ahad_ayna_interview_project/core/user/user.dart';
 import 'package:ahad_ayna_interview_project/core/utils/app_theme.dart';
 import 'package:ahad_ayna_interview_project/service_locator.dart';
-// import 'package:ahad_ayna_interview_project_plugins/url_strategy.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 void main() async {
-  urlStrategy!;
-  // setPathUrlStrategy();
+  usePathUrlStrategy();
   setupLocator();
   await AppLocalDB.init();
   // User().isLoggedIn;
