@@ -1,5 +1,6 @@
 library app_snack_bars;
 
+import 'package:ahad_ayna_interview_project/common_libs.dart';
 import 'package:flutter/material.dart';
 import 'package:ahad_ayna_interview_project/core/config/app_colors.dart';
 import 'package:ahad_ayna_interview_project/core/routes/navigation_service.dart';
@@ -33,11 +34,11 @@ class AppSnackBars {
           alertMessage: message,
           alertType: alertType,
         ),
-        margin: const EdgeInsets.only(
+        showCloseIcon: true,
+        margin: EdgeInsets.only(
           left: 10,
           right: 10,
-          top: 10,
-          bottom: 10,
+          bottom: context.getHeight - (2 * kToolbarHeight),
         ),
         padding: EdgeInsets.zero,
         dismissDirection: DismissDirection.startToEnd,

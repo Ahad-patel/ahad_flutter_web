@@ -7,8 +7,8 @@ import 'package:collection/collection.dart';
 import 'package:path_provider/path_provider.dart';
 
 abstract class AppLocalKeys {
-  static const String boxName = 'flutter-web';
-  static const String roomBox = 'rooms';
+  static const String boxName = 'flutter-ayna-web';
+  static const String roomBox = 'roomBox';
   static const String user = 'user';
   static const String userList = 'user-list';
   static const String chats = 'chat';

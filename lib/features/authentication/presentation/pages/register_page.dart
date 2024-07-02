@@ -33,112 +33,110 @@ class RegisterPage extends StatelessWidget {
       lazy: false,
       child: Scaffold(
         body: Center(
-          child: Flexible(
-            child: ConstrainedBox(
-              constraints:
-                  const BoxConstraints(maxWidth: AppDimens.defaultMaxWidth),
-              child: Form(
-                key: formKey,
-                child: Card(
-                  color: AppColors.grey78,
-                  margin: const EdgeInsets.symmetric(
-                      horizontal: AppDimens.defaultPadding),
-                  child: Padding(
-                    padding: const EdgeInsets.all(AppDimens.defaultPadding),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Register',
-                          style: context.h28.withBlack.withOpacity(0.5),
-                        ),
-                        const Gap(AppDimens.space8),
-                        AppTextFormField(
-                          label: 'User Name',
-                          hint: 'User Name',
-                          filled: true,
-                          fillColor: AppColors.black.withOpacity(0.5),
-                          borderColor: AppColors.transparent,
-                          controller: nameCTRL,
-                          validator: ValidationHelpers.userNameField,
-                        ),
-                        AppTextFormField(
-                          obscureText: true,
-                          maxLines: 1,
-                          label: 'Password',
-                          hint: 'Password',
-                          filled: true,
-                          fillColor: AppColors.black.withOpacity(0.5),
-                          borderColor: AppColors.transparent,
-                          controller: passwordCTRL,
-                          validator: ValidationHelpers.passwordCheckValidate,
-                        ),
-                        AppTextFormField(
-                          maxLines: 1,
-                          label: 'Confirm Password',
-                          hint: 'Confirm Password',
-                          filled: true,
-                          fillColor: AppColors.black.withOpacity(0.5),
-                          borderColor: AppColors.transparent,
-                          controller: confirmPassCTRL,
-                          validator: (value) =>
-                              ValidationHelpers.confirmPasswordValidate(
-                                  value, passwordCTRL.text),
-                        ),
-                        const Gap(AppDimens.space8),
-                        BlocConsumer<AuthenticationBloc, AuthenticationState>(
-                          listener: (context, state) {
-                            if (state.responseState == ResponseState.success) {
-                              context.goNamed(AppRoutes.home);
-                            }
+          child: ConstrainedBox(
+            constraints:
+                const BoxConstraints(maxWidth: AppDimens.defaultMaxWidth),
+            child: Form(
+              key: formKey,
+              child: Card(
+                color: AppColors.grey78,
+                margin: const EdgeInsets.symmetric(
+                    horizontal: AppDimens.defaultPadding),
+                child: Padding(
+                  padding: const EdgeInsets.all(AppDimens.defaultPadding),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Register',
+                        style: context.h28.withBlack.withOpacity(0.5),
+                      ),
+                      const Gap(AppDimens.space8),
+                      AppTextFormField(
+                        label: 'User Name',
+                        hint: 'User Name',
+                        filled: true,
+                        fillColor: AppColors.black.withOpacity(0.5),
+                        borderColor: AppColors.transparent,
+                        controller: nameCTRL,
+                        validator: ValidationHelpers.userNameField,
+                      ),
+                      AppTextFormField(
+                        obscureText: true,
+                        maxLines: 1,
+                        label: 'Password',
+                        hint: 'Password',
+                        filled: true,
+                        fillColor: AppColors.black.withOpacity(0.5),
+                        borderColor: AppColors.transparent,
+                        controller: passwordCTRL,
+                        validator: ValidationHelpers.passwordCheckValidate,
+                      ),
+                      AppTextFormField(
+                        maxLines: 1,
+                        label: 'Confirm Password',
+                        hint: 'Confirm Password',
+                        filled: true,
+                        fillColor: AppColors.black.withOpacity(0.5),
+                        borderColor: AppColors.transparent,
+                        controller: confirmPassCTRL,
+                        validator: (value) =>
+                            ValidationHelpers.confirmPasswordValidate(
+                                value, passwordCTRL.text),
+                      ),
+                      const Gap(AppDimens.space8),
+                      BlocConsumer<AuthenticationBloc, AuthenticationState>(
+                        listener: (context, state) {
+                          if (state.responseState == ResponseState.success) {
+                            context.goNamed(AppRoutes.home);
+                          }
 
-                            if (state.responseState == ResponseState.failure) {
-                              AppSnackBars.showSnackBar(
-                                  alertType: AlertType.error,
-                                  message: state.message!);
-                            }
+                          if (state.responseState == ResponseState.failure) {
+                            AppSnackBars.showSnackBar(
+                                alertType: AlertType.error,
+                                message: state.message!);
+                          }
+                        },
+                        bloc: context.read(),
+                        builder: (context, state) => AppButton(
+                          buttonType: ButtonType.elevated,
+                          buttonColor: AppColors.secondary,
+                          borderColor: AppColors.transparent,
+                          onTap: () async {
+                            if (!formKey.currentState!.validate()) return;
+                            var user = User(
+                                name: nameCTRL.text.trim(),
+                                password: passwordCTRL.text.trim());
+
+                            context
+                                .read<AuthenticationBloc>()
+                                .add(RegisterEvent(user: user));
                           },
-                          bloc: context.read(),
-                          builder: (context, state) => AppButton(
-                            buttonType: ButtonType.elevated,
-                            buttonColor: AppColors.secondary,
-                            borderColor: AppColors.transparent,
-                            onTap: () async {
-                              if (!formKey.currentState!.validate()) return;
-                              var user = User(
-                                  name: nameCTRL.text.trim(),
-                                  password: passwordCTRL.text.trim());
-
-                              context
-                                  .read<AuthenticationBloc>()
-                                  .add(RegisterEvent(user: user));
-                            },
-                            buttonName: 'Submit',
-                          ),
+                          buttonName: 'Submit',
                         ),
-                        const Gap(AppDimens.space16),
-                        Text.rich(
-                            TextSpan(style: context.sm12.withGreyD9, children: [
-                          const TextSpan(text: "Don't have an account? "),
-                          WidgetSpan(
-                              child: MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            child: GestureDetector(
-                                onTap: () {
-                                  NavigationService().pushNamedAndRemoveUntil(
-                                    AppRoutes.login,
-                                    (route) => false,
-                                  );
-                                },
-                                child: Text(
-                                  'Login Now',
-                                  style: context.sm12.withPrimary,
-                                )),
-                          ))
-                        ])),
-                      ],
-                    ),
+                      ),
+                      const Gap(AppDimens.space16),
+                      Text.rich(
+                          TextSpan(style: context.sm12.withGreyD9, children: [
+                        const TextSpan(text: "Don't have an account? "),
+                        WidgetSpan(
+                            child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: GestureDetector(
+                              onTap: () {
+                                NavigationService().pushNamedAndRemoveUntil(
+                                  AppRoutes.login,
+                                  (route) => false,
+                                );
+                              },
+                              child: Text(
+                                'Login Now',
+                                style: context.sm12.withPrimary,
+                              )),
+                        ))
+                      ])),
+                    ],
                   ),
                 ),
               ),

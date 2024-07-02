@@ -36,24 +36,33 @@ class HomePage extends StatelessWidget {
       create: (context) => bloc,
       child: Scaffold(
         appBar: AppBar(
-          leading: Image.asset(AppAssets.logo),
-          title: Text.rich(
-            TextSpan(children: [
-              TextSpan(text: 'Chit', style: context.lg16.withPrimary),
-              TextSpan(text: 'Chat', style: context.lg16.withSecondary),
-            ]),
+          leading: Padding(
+            padding: const EdgeInsets.all(AppDimens.defaultPadding),
+            child: Image.asset(AppAssets.logo),
+          ),
+          title: Padding(
+            padding: const EdgeInsets.all(AppDimens.defaultPadding),
+            child: Text.rich(
+              TextSpan(children: [
+                TextSpan(text: 'Chit', style: context.lg16.withPrimary),
+                TextSpan(text: 'Chat', style: context.lg16.withSecondary),
+              ]),
+            ),
           ),
           actions: [
-            AppButton(
-              buttonType: ButtonType.outLineWithIcon,
-              icon: Icon(Icons.logout),
-              iconAlignment: IconAlignment.end,
-              buttonName: "Logout",
-              onTap: () {
-                User.logout();
-                NavigationService()
-                    .pushNamedAndRemoveUntil(AppRoutes.login, (route) => false);
-              },
+            Padding(
+              padding: const EdgeInsets.all(AppDimens.defaultPadding),
+              child: AppButton(
+                buttonType: ButtonType.outLineWithIcon,
+                icon: Icon(Icons.logout),
+                iconAlignment: IconAlignment.end,
+                buttonName: "Logout",
+                onTap: () {
+                  User.logout();
+                  NavigationService().pushNamedAndRemoveUntil(
+                      AppRoutes.login, (route) => false);
+                },
+              ),
             ),
             // Gap(AppDimens.space5),
             // AppButton(
