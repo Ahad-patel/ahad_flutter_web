@@ -16,6 +16,7 @@ import 'package:ahad_ayna_interview_project/core/widgets/app_text_form_field.dar
 import 'package:ahad_ayna_interview_project/features/authentication/presentation/manager/authentication_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:uuid/uuid.dart';
 
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
@@ -106,6 +107,7 @@ class RegisterPage extends StatelessWidget {
                           onTap: () async {
                             if (!formKey.currentState!.validate()) return;
                             var user = User(
+                                id: const Uuid().v1(),
                                 name: nameCTRL.text.trim(),
                                 password: passwordCTRL.text.trim());
 
