@@ -1,4 +1,4 @@
-# ahad_ayna_interview_project
+# Flutter web chat app
 
 A new Flutter project.
 
